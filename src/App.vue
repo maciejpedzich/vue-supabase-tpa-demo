@@ -8,9 +8,17 @@ const authStore = useAuthStore();
 
 authStore.loadUser();
 
-supabase.auth.onAuthStateChange(
-  (event) => event === 'SIGNED_IN' && authStore.loadUser()
-);
+supabase.auth.onAuthStateChange((event) => {
+  if (event === 'SIGNED_IN') {
+    const customRedirectCheck = localStorage.getItem('customRedirectCheck');
+
+    if (customRedirectCheck) {
+      localStorage.setItem('customRedirectCheck', 'ready');
+    }
+
+    authStore.loadUser();
+  }
+});
 </script>
 
 <template>
