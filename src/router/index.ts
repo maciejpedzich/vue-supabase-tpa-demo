@@ -9,11 +9,13 @@ const router = createRouter({
     {
       path: '/',
       name: 'Home',
+      meta: { authRequired: false },
       component: HomeView
     },
     {
       path: '/sign-in',
       name: 'SignIn',
+      meta: { authRequired: false },
       component: () => import('../views/SignInView.vue')
     },
     {
