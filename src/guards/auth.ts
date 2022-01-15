@@ -1,6 +1,5 @@
 import { RouteLocationNormalized, NavigationGuardNext } from 'vue-router';
 import { useAuthStore } from '@/stores/auth';
-import { watchEffect } from 'vue';
 
 export function authGuard(
   from: RouteLocationNormalized,
@@ -17,17 +16,20 @@ export function authGuard(
   };
 
   if (from.meta.authRequired) {
-    watchEffect(() => {
-      const loadingFinished = !authStore.isLoading;
-      const customRedirectCheck = localStorage.getItem('customRedirectCheck');
+    authStore.$subscribe(
+      (mutation, state) => {
+        const loadingFinished = !state.isLoading;
+        const customRedirectCheck = localStorage.getItem('customRedirectCheck');
 
-      if (
-        loadingFinished &&
-        (!customRedirectCheck || customRedirectCheck === 'ready')
-      ) {
-        checkAuthStatus();
-      }
-    });
+        if (
+          loadingFinished &&
+          (!customRedirectCheck || customRedirectCheck === 'ready')
+        ) {
+          checkAuthStatus();
+        }
+      },
+      { immediate: true }
+    );
   } else {
     return next();
   }
