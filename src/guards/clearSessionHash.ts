@@ -23,13 +23,13 @@ export function clearSessionHash(
       searchParamsObj.delete(key);
     }
 
-    const fragment = Array.from(searchParamsObj.keys())[0];
+    const [fragment] = [...searchParamsObj.keys()];
     const nonSessionHash = fragment ? `#${fragment}` : '';
 
     history.pushState(
       {},
       document.title,
-      window.location.pathname + window.location.search + nonSessionHash
+      `${window.location.pathname}${window.location.search}${nonSessionHash}`
     );
   }
 }
