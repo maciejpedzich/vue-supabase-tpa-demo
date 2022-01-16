@@ -27,7 +27,7 @@ export const useAuthStore = defineStore<'auth', State, Getters, Actions>(
       };
     },
     getters: {
-      isAuthenticated(): boolean {
+      isAuthenticated() {
         return !!this.currentUser;
       }
     },
