@@ -1,11 +1,12 @@
 import { defineStore } from 'pinia';
+import { RouteLocation } from 'vue-router';
 
 import { User } from '@supabase/supabase-js';
 import { supabase } from '@/supabase';
 
 type State = {
-  isLoading: boolean;
   currentUser: User | null;
+  redirectRoute: Partial<RouteLocation> | null;
 };
 
 type Getters = {
@@ -15,6 +16,9 @@ type Getters = {
 type Actions = {
   loadUser(): void;
   clearUser(): void;
+  saveRedirectRoute(route: Partial<RouteLocation>): void;
+  loadRedirectRoute(): void;
+  clearRedirectRoute(): void;
 };
 
 export const useAuthStore = defineStore<'auth', State, Getters, Actions>(
@@ -22,8 +26,8 @@ export const useAuthStore = defineStore<'auth', State, Getters, Actions>(
   {
     state() {
       return {
-        isLoading: true,
-        currentUser: null
+        currentUser: null,
+        redirectRoute: null
       };
     },
     getters: {
@@ -33,12 +37,32 @@ export const useAuthStore = defineStore<'auth', State, Getters, Actions>(
     },
     actions: {
       loadUser() {
-        this.isLoading = true;
         this.currentUser = supabase.auth.user();
-        this.isLoading = false;
       },
       clearUser() {
         this.currentUser = null;
+      },
+      saveRedirectRoute(route: Partial<RouteLocation>) {
+        localStorage.setItem(
+          'redirectRoute',
+          JSON.stringify({
+            name: route.name,
+            params: route.params,
+            query: route.query,
+            hash: route.hash
+          })
+        );
+      },
+      loadRedirectRoute() {
+        const route = JSON.parse(
+          localStorage.getItem('redirectRoute') || 'null'
+        ) as Partial<RouteLocation> | null;
+
+        this.redirectRoute = route;
+      },
+      clearRedirectRoute() {
+        localStorage.removeItem('redirectRoute');
+        this.redirectRoute = null;
       }
     }
   }

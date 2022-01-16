@@ -1,5 +1,4 @@
 import { authGuard } from '@/guards/auth';
-import { clearSessionHash } from '@/guards/clearSessionHash';
 import { createRouter, createWebHistory } from 'vue-router';
 import HomeView from '../views/HomeView.vue';
 
@@ -19,16 +18,14 @@ const router = createRouter({
       component: () => import('../views/SignInView.vue')
     },
     {
-      path: '/protected',
-      name: 'Protected',
+      path: '/profile',
+      name: 'Profile',
       meta: { authRequired: true },
-      component: () => import('../views/ProtectedView.vue')
+      component: () => import('../views/ProfileView.vue')
     }
   ]
 });
 
 router.beforeEach(authGuard);
-
-router.afterEach(clearSessionHash);
 
 export default router;
