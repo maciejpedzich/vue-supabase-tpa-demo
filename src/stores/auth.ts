@@ -43,13 +43,15 @@ export const useAuthStore = defineStore<'auth', State, Getters, Actions>(
         this.currentUser = null;
       },
       saveRedirectRoute(route: Partial<RouteLocation>) {
+        const { name, params, query, hash } = route;
+
         localStorage.setItem(
           'redirectRoute',
           JSON.stringify({
-            name: route.name,
-            params: route.params,
-            query: route.query,
-            hash: route.hash
+            name,
+            params,
+            query,
+            hash
           })
         );
       },
