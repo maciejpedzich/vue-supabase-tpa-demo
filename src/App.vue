@@ -21,12 +21,12 @@ supabase.auth.onAuthStateChange((event) => {
 authStore.$onAction(({ name, store, after }) => {
   if (name === 'loadRedirectRoute') {
     after(async () => {
-      const redirect = store.redirectRoute;
+      const redirectRoute = store.redirectRoute;
 
-      if (redirect) {
-        authStore.clearRedirectRoute();
+      if (redirectRoute) {
         await router.isReady();
-        await router.replace(redirect as RouteLocationRaw);
+        await router.replace(redirectRoute as RouteLocationRaw);
+        authStore.clearRedirectRoute();
       }
     });
   }
