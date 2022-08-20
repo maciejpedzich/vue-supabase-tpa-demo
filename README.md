@@ -2,7 +2,7 @@
 
 Demo application utilising Supabase for third party authentication (here with Github). Bear in mind **it is NOT** 100% production ready, it's just a demo after all.
 
-[Read about it on Hashnode](https://blog.maciejpedzi.ch/vue-supabase-github-oauth)
+[Read about it on Hashnode](https://hashnode.maciejpedzi.ch/vue-supabase-github-oauth)
 
 ## Recommended IDE Setup
 
